@@ -1,0 +1,67 @@
+{% extends 'index.html'%}
+{% block content %}
+<!-- if user try to navigate to /dashboard without login -->
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- DASHBOARD -->
+<div class="row">
+    <h2 class="col">Hello, {{user.username}} </h2>
+    <h4 class="col text-end"><a href="logout/{{user.id}}">Logout</a></h4>
+</div>
+
+<!-- USER WISHLIST -->
+<h4 class="mt-5">Your wishlist..</h4>
+<table class="table m-5">
+    <thead>
+        <th>Item</th>
+        <th>Added by:</th>
+        <th>Date Added:</th>
+        <th>Action:</th>
+    </thead>
+    <tbody>
+        {% for item in user.wishlist.all %}
+        <tr>
+            <td><a href="wish_items/{{item.id}}">{{item.name}}</a></td>
+            <td>{{item.user.username}}</td>
+            <td>{{item.created_at}}</td>
+            {% if user.id == item.user.id %}
+            <td><a href="/deleteItem/{{item.id}}">delete</a></td>
+            {% else %}
+            <td><a href="/removeItem/{{item.id}}">remove from wishlist</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<!-- OTHERWISHLISTS -->
+<h4 class="mt-5">Other users wishlists..</h4>
+<table class="table m-5">
+    <thead>
+        <th>Item</th>
+        <th>Added by:</th>
+        <th>Date Added:</th>
+        <th>Action:</th>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><a href="wish_items/{{item.id}}">{{item.name}}</a></td>
+            <td>{{item.user.username}}</td>
+            <td>{{item.created_at}}</td>
+            <td><a href="/addtoWishList/{{item.id}}">Add to my wishlist</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<h4 class="text-end"><a href="/wish_items/create">Add Item</a></h4>
+{% endblock %}

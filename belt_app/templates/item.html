@@ -1,0 +1,16 @@
+{% extends 'index.html'%}
+{% block content %}
+
+<div class="col col-9"><h2>{{item.name}}</h2></div>
+<div class="col"><h3><a href="/dashboard">Home</a></h3></div>
+<div class="col"><h3><a href="/logout/{{userId}}">Logout</a></h3></div>
+<ul>
+    <li><h5 class="mt-5">Users who added this Item to thier wishlist:</h5></li>
+    <ul class="mt-5">
+        {% for user in item.users.all %}
+        <li>{{user.username}}</li>
+        {% endfor %}
+    </ul>
+</ul>
+
+{% endblock %}
